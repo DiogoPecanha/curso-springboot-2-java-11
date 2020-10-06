@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.springbootstudy.course.entities.Product;
 import com.springbootstudy.course.repositories.ProductRepository;
+import com.springbootstudy.course.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class ProductService {
@@ -21,10 +22,6 @@ public class ProductService {
 	
 	public Product findById(Long id) {
 		Optional<Product> obj = repository.findById(id);
-		if (obj.isPresent()) {
-			return obj.get();
-		} else {
-			return null;
-		}
+		return obj.orElseThrow(() -> new ResourceNotFoundException(id));	
 	}
 }
